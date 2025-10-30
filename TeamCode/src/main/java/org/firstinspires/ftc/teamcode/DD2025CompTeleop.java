@@ -35,6 +35,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -125,10 +126,10 @@ public class DD2025CompTeleop extends LinearOpMode {
         // when you first test your robot, push the left joystick forward and observe the direction the wheels turn.
         // Reverse the direction (flip FORWARD <-> REVERSE ) of any wheel that runs backward
         // Keep testing until ALL the wheels move the robot forward when you push the left joystick forward.
-        frontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
-        backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
-        frontRightDrive.setDirection(DcMotor.Direction.REVERSE);
-        backRightDrive.setDirection(DcMotor.Direction.FORWARD);
+        frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
+        backLeftDrive.setDirection(DcMotor.Direction.FORWARD);
+        frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
+        backRightDrive.setDirection(DcMotor.Direction.REVERSE);
 
         intake.setDirection(DcMotor.Direction.REVERSE);
         feederleft.setDirection(CRServo.Direction.FORWARD);
@@ -158,12 +159,12 @@ public class DD2025CompTeleop extends LinearOpMode {
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
             double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
-            double lateral = -gamepad1.left_stick_x;
-            double yaw     = -gamepad1.right_stick_x;
+            double lateral = gamepad1.left_stick_x;
+            double yaw     = gamepad1.right_stick_x;
 
             // Rotate the movement direction counter to the bot's rotation
-            double rotX = lateral * Math.cos(botHeading) - axial * Math.sin(botHeading);
-            double rotY = lateral * Math.sin(botHeading) + axial * Math.cos(botHeading);
+            double rotX = lateral * Math.cos(-botHeading) - axial * Math.sin(-botHeading);
+            double rotY = lateral * Math.sin(-botHeading) + axial * Math.cos(-botHeading);
 
             rotX = rotX * 1.1;  // Counteract imperfect strafing
 
@@ -219,18 +220,18 @@ public class DD2025CompTeleop extends LinearOpMode {
             backLeftDrive.setPower(backLeftPower);
             backRightDrive.setPower(backRightPower);
 
-            intake.setPower(1);
+            //intake.setPower(1);
             if (gamepad1.x) {
                 shooter.setPower(1);
             } else {
                 shooter.setPower(0);
             }
             if (gamepad1.a) {
-                feederleft.setPower(1);
-                feederright.setPower(1);
+                //feederleft.setPower(1);
+                //feederright.setPower(1);
             } else {
-                feederleft.setPower(-1);
-                feederright.setPower(-1);
+                //feederleft.setPower(-1);
+                //feederright.setPower(-1);
             }
 
 
