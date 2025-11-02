@@ -24,11 +24,11 @@
  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 package org.firstinspires.ftc.teamcode;
-
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -131,11 +131,15 @@ public class DD2025CompTeleop extends LinearOpMode {
         frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
         backRightDrive.setDirection(DcMotor.Direction.REVERSE);
 
-        intake.setDirection(DcMotor.Direction.REVERSE);
+        intake.setDirection(DcMotor.Direction.FORWARD);
         feederleft.setDirection(CRServo.Direction.FORWARD);
         feederright.setDirection(CRServo.Direction.REVERSE);
         shooter.setDirection(DcMotor.Direction.REVERSE);
-        shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        shooter.setMode(DcMotor.RunMode.);
+        double shooterPower = 0.0;
+        shooter.setPower(shooterPower);
 
 
         // Wait for the game to start (driver presses START)
@@ -220,26 +224,34 @@ public class DD2025CompTeleop extends LinearOpMode {
             backLeftDrive.setPower(backLeftPower);
             backRightDrive.setPower(backRightPower);
 
-            //intake.setPower(1);
-            if (gamepad1.x) {
-                shooter.setPower(1);
+            if (gamepad1.b) {
+                intake.setPower(-1);
             } else {
-                shooter.setPower(0);
+                intake.setPower(1);
             }
+
+            if (gamepad1.rightBumperWasPressed()) {
+                shooterPower += 0.1;
+            }
+            if (gamepad1.leftBumperWasPressed()) {
+                shooterPower -= 0.1;
+            }
+            shooter.setPower(shooterPower);
+
             if (gamepad1.a) {
                 feederleft.setPower(1);
                 feederright.setPower(1);
             } else {
-                feederleft.setPower(-1);
-                feederright.setPower(-1);
+                feederleft.setPower(0);
+                feederright.setPower(0);
             }
-
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", backLeftPower, backRightPower);
             telemetry.addData("shooter velocity", ((DcMotorEx) shooter).getVelocity());
+            telemetry.addData("shooter power", ((DcMotorEx) shooter).getPower());
             telemetry.update();
         }
     }}
