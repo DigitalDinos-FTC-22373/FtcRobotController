@@ -227,11 +227,11 @@ public class DD2025CompTeleop extends LinearOpMode {
                 shooter.setPower(0);
             }
             if (gamepad1.a) {
-                //feederleft.setPower(1);
-                //feederright.setPower(1);
+                feederleft.setPower(1);
+                feederright.setPower(1);
             } else {
-                //feederleft.setPower(-1);
-                //feederright.setPower(-1);
+                feederleft.setPower(-1);
+                feederright.setPower(-1);
             }
 
 
