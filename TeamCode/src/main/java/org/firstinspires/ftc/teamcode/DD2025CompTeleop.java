@@ -82,6 +82,8 @@ public class DD2025CompTeleop extends LinearOpMode {
     private DcMotor frontRightDrive = null;
     private DcMotor backRightDrive = null;
     private DcMotor intake;
+
+    private DcMotor backintake;
     private CRServo feederleft;
     private CRServo feederright;
     private DcMotor shooter;
@@ -112,6 +114,8 @@ public class DD2025CompTeleop extends LinearOpMode {
         backRightDrive = hardwareMap.get(DcMotor.class, "back right");
 
         intake = hardwareMap.get(DcMotor.class, "intake");
+        backintake = hardwareMap.get(DcMotor.class,"backintake");
+        //Vineeth made the change
         feederleft = hardwareMap.get(CRServo.class, "feeder left");
         feederright = hardwareMap.get(CRServo.class, "feeder right");
         shooter = hardwareMap.get(DcMotor.class, "shooter");
@@ -132,6 +136,7 @@ public class DD2025CompTeleop extends LinearOpMode {
         backRightDrive.setDirection(DcMotor.Direction.REVERSE);
 
         intake.setDirection(DcMotor.Direction.FORWARD);
+        backintake.setDirection(DcMotor.Direction.FORWARD);
         feederleft.setDirection(CRServo.Direction.FORWARD);
         feederright.setDirection(CRServo.Direction.REVERSE);
         shooter.setDirection(DcMotor.Direction.REVERSE);
@@ -224,11 +229,32 @@ public class DD2025CompTeleop extends LinearOpMode {
             backLeftDrive.setPower(backLeftPower);
             backRightDrive.setPower(backRightPower);
 
-            if (gamepad1.b) {
-                intake.setPower(-1);
-            } else {
+            if (gamepad2.b) {
+                intake.setPower(1);}
+            if (gamepad2.a){
+                    intake.setPower(-1);}
+
+            if(gamepad2.left_bumper){
+                shooter.setPower(0.6);
+                sleep(2500);
+                feederleft.setPower(1);
+                feederright.setPower(1);
+                sleep(1000);
+                backintake.setPower(1);
+                sleep(3000);
+                backintake.setPower(1);
+                feederleft.setPower(1);
+                feederright.setPower(1);
                 intake.setPower(1);
+                sleep(2500);
             }
+            if (gamepad2.x) {
+                backintake.setPower(-1);
+
+            } if (gamepad2.y) {
+                backintake.setPower(1);
+            } else {
+                backintake.setPower(0);
 
             if (gamepad1.rightBumperWasPressed()) {
                 shooterPower += 0.1;
@@ -254,5 +280,6 @@ public class DD2025CompTeleop extends LinearOpMode {
             telemetry.addData("shooter power", ((DcMotorEx) shooter).getPower());
             telemetry.update();
         }
-    }}
-// hello 
+    }}}
+
+// hello
