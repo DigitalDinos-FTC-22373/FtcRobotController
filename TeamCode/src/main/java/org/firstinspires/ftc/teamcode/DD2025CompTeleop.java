@@ -154,6 +154,8 @@ public class DD2025CompTeleop extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
+        backintake.setPower(1);
+        intake.setPower(1);
 
 
         // run until the end of the match (driver presses STOP)
@@ -234,7 +236,7 @@ public class DD2025CompTeleop extends LinearOpMode {
             if (gamepad2.a){
                     intake.setPower(-1);}
 
-            if(gamepad2.left_bumper){
+            if(gamepad2.left_bumper){ //Demo Auton
                 shooter.setPower(0.6);
                 sleep(2500);
                 feederleft.setPower(1);
@@ -251,7 +253,11 @@ public class DD2025CompTeleop extends LinearOpMode {
             if (gamepad2.x) {
                 backintake.setPower(-1);
 
-            } if (gamepad2.y) {
+            }
+            if (gamepad2.right_bumper) {
+                backintake.setPower(0);
+            }
+            if (gamepad2.y) {
                 backintake.setPower(1);
             } else {
                 backintake.setPower(0);
