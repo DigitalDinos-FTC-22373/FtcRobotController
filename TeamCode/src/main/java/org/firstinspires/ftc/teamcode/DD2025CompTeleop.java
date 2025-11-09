@@ -93,21 +93,15 @@ public class DD2025CompTeleop extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-
-
+        
         imu = hardwareMap.get(IMU.class, "imu");
-
-
 
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.UP;
 
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
 
-
         imu.initialize(new IMU.Parameters(orientationOnRobot));
-
-
 
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
@@ -292,6 +286,7 @@ public class DD2025CompTeleop extends LinearOpMode {
             telemetry.addData("shooter power", ((DcMotorEx) shooter).getPower());
             telemetry.update();
         }
-    }}}
+    }
+}
 
 // hello
