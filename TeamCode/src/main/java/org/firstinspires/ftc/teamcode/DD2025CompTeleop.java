@@ -40,6 +40,8 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 /*
  * This file contains an example of a Linear "OpMode".
@@ -74,7 +76,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 public class DD2025CompTeleop extends LinearOpMode {
 
     IMU imu;
-
+    private AprilTagProcessor aprilTag;
+    private VisionPortal visionPortal;
     // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor frontLeftDrive = null;
@@ -90,6 +93,7 @@ public class DD2025CompTeleop extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+
 
         imu = hardwareMap.get(IMU.class, "imu");
 
@@ -232,9 +236,11 @@ public class DD2025CompTeleop extends LinearOpMode {
             backRightDrive.setPower(backRightPower);
 
             if (gamepad2.b) {
-                intake.setPower(0.1);}
+                intake.setPower(0.1);
+            }
             if (gamepad2.a){
-                    intake.setPower(-0.1);}
+                intake.setPower(-0.1);
+            }
 
             if(gamepad2.left_bumper){ //Demo Auton
                 shooter.setPower(0.6);
@@ -250,17 +256,17 @@ public class DD2025CompTeleop extends LinearOpMode {
                 intake.setPower(0.1);
                 sleep(2500);
             }
+
+            // back intake
             if (gamepad2.x) {
                 backintake.setPower(-1);
-
             }
             if (gamepad2.right_bumper) {
                 backintake.setPower(0);
             }
             if (gamepad2.y) {
                 backintake.setPower(1);
-            } else {
-                backintake.setPower(0);
+            }
 
             if (gamepad1.rightBumperWasPressed()) {
                 shooterPower += 0.1;
