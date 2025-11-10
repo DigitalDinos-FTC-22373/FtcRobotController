@@ -100,7 +100,7 @@ public class DD2025CompTeleop extends LinearOpMode {
     private DcMotor backintake;
     private CRServo feederleft;
     private CRServo feederright;
-    private DcMotor shooter;
+    private DcMotorEx shooter;
 
     @Override
     public void runOpMode() {
@@ -130,7 +130,7 @@ public class DD2025CompTeleop extends LinearOpMode {
         //Vineeth made the change
         feederleft = hardwareMap.get(CRServo.class, "feeder left");
         feederright = hardwareMap.get(CRServo.class, "feeder right");
-        shooter = hardwareMap.get(DcMotor.class, "shooter");
+        shooter = hardwareMap.get(DcMotorEx.class, "shooter");
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -167,7 +167,7 @@ public class DD2025CompTeleop extends LinearOpMode {
         runtime.reset();
 
         backintake.setPower(1);
-        intake.setPower(0.05);
+        intake.setPower(-1);
 
 
         // run until the end of the match (driver presses STOP)
@@ -248,10 +248,10 @@ public class DD2025CompTeleop extends LinearOpMode {
             backRightDrive.setPower(backRightPower);
 
             if (gamepad2.b) {
-                intake.setPower(0.05);
+                intake.setPower(1);
             }
             if (gamepad2.a){
-                intake.setPower(-0.05);
+                intake.setPower(-1);
             }
 
             if(gamepad2.left_bumper){ //Demo Auton
@@ -265,19 +265,19 @@ public class DD2025CompTeleop extends LinearOpMode {
                 backintake.setPower(1);
                 feederleft.setPower(1);
                 feederright.setPower(1);
-                intake.setPower(0.1);
+                intake.setPower(1);
                 sleep(2500);
             }
 
             // back intake
             if (gamepad2.x) {
-                backintake.setPower(-1);
+                backintake.setPower(1);
             }
             if (gamepad2.right_bumper) {
                 backintake.setPower(0);
             }
             if (gamepad2.y) {
-                backintake.setPower(1);
+                backintake.setPower(-1);
             }
 
             if (gamepad1.rightBumperWasPressed()) {
@@ -300,8 +300,8 @@ public class DD2025CompTeleop extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", backLeftPower, backRightPower);
-            telemetry.addData("shooter velocity", ((DcMotorEx) shooter).getVelocity());
-            telemetry.addData("shooter power", ((DcMotorEx) shooter).getPower());
+            telemetry.addData("shooter velocity",  shooter.getVelocity());
+            telemetry.addData("shooter power",  shooter.getPower());
             telemetry.update();
         }
     }
