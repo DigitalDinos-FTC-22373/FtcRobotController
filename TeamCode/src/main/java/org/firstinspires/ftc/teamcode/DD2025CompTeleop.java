@@ -157,8 +157,9 @@ public class DD2025CompTeleop extends LinearOpMode {
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        shooter.setMode(DcMotor.RunMode.);
-        double shooterPower = 0.0;
-        shooter.setPower(shooterPower);
+        double shooterVelocity = 1400;
+        shooter.setVelocity(shooterVelocity);
+
 
 
         // Wait for the game to start (driver presses START)
@@ -248,47 +249,31 @@ public class DD2025CompTeleop extends LinearOpMode {
             frontRightDrive.setPower(frontRightPower);
             backLeftDrive.setPower(backLeftPower);
             backRightDrive.setPower(backRightPower);
-
+            // front intake
             if (gamepad2.b) {
                 intake.setPower(1);
             }
             if (gamepad2.a){
                 intake.setPower(-1);
             }
-
-            if(gamepad2.left_bumper){ //Demo Auton
-                shooter.setPower(0.6);
-                sleep(2500);
-                feederleft.setPower(1);
-                feederright.setPower(1);
-                sleep(1000);
-                backintake.setPower(1);
-                sleep(3000);
-                backintake.setPower(1);
-                feederleft.setPower(1);
-                feederright.setPower(1);
-                intake.setPower(1);
-                sleep(2500);
-            }
-
             // back intake
-            if (gamepad2.x) {
+            if (gamepad2.dpad_up) {
                 backintake.setPower(1);
             }
-            if (gamepad2.right_bumper) {
+            if (gamepad2.dpad_left || gamepad2.dpad_right) {
                 backintake.setPower(0);
             }
-            if (gamepad2.y) {
+            if (gamepad2.dpad_down) {
                 backintake.setPower(-1);
             }
 
-            if (gamepad1.rightBumperWasPressed()) {
-                shooterPower += 0.1;
+            if (gamepad2.rightBumperWasPressed()) {
+                shooterVelocity += 20;
             }
-            if (gamepad1.leftBumperWasPressed()) {
-                shooterPower -= 0.1;
+            if (gamepad2.leftBumperWasPressed()) {
+                shooterVelocity -= 20;
             }
-            shooter.setPower(shooterPower);
+            shooter.setVelocity(shooterVelocity);
 
             if (gamepad1.a) {
                 feederleft.setPower(1);
