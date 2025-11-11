@@ -101,6 +101,8 @@ public class DD2025CompTeleop extends LinearOpMode {
     private CRServo feederleft;
     private CRServo feederright;
     private DcMotorEx shooter;
+    double aprilTagAngle = 5000;
+    double aprilTagDistance = 100000;
 
     @Override
     public void runOpMode() {
@@ -117,7 +119,6 @@ public class DD2025CompTeleop extends LinearOpMode {
 
         imu.initialize(new IMU.Parameters(orientationOnRobot));
 
-        double aprilTagAngle = 5000;
 
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
@@ -176,7 +177,7 @@ public class DD2025CompTeleop extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            detectionAprilTag(aprilTagAngle);
+            detectionAprilTag();
 
 
             double max;
@@ -365,7 +366,7 @@ public class DD2025CompTeleop extends LinearOpMode {
     /**
      * Add telemetry about AprilTag detections.
      */
-    private void detectionAprilTag(double angle) {
+    private void detectionAprilTag() {
 
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
         telemetry.addData("# AprilTags Detected", currentDetections.size());
@@ -377,9 +378,10 @@ public class DD2025CompTeleop extends LinearOpMode {
                 telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
                 telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
                 telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detection.ftcPose.range, detection.ftcPose.bearing, detection.ftcPose.elevation));
-
-                angle = detection.ftcPose.yaw;
-
+                if (detection.id == 20 || detection.id == 24) {
+                    aprilTagAngle = detection.ftcPose.yaw;
+                    aprilTagDistance = detection.ftcPose.range;
+                }
             } else {
                 telemetry.addLine(String.format("\n==== (ID %d) Unknown", detection.id));
                 telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
