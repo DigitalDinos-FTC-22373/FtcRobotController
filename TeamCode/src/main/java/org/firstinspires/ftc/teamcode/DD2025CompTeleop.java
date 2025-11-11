@@ -291,6 +291,7 @@ public class DD2025CompTeleop extends LinearOpMode {
             telemetry.addData("shooter velocity",  shooter.getVelocity());
             telemetry.addData("shooter power",  shooter.getPower());
             telemetry.addData("April tag angle", aprilTagAngle);
+            telemetry.addData("April Tag Distance", aprilTagDistance);
             telemetry.update();
         }
     }
