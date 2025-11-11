@@ -99,21 +99,21 @@ public class AutontestDD extends LinearOpMode {
         if (opModeIsActive()) {
 
             //Demo Auton
-            shooter.setVelocity(1400);
+            shooter.setVelocity(1450);
             sleep(2500);
             feederleft.setPower(1);
             feederright.setPower(1);
-            sleep(1000);
+            sleep(1500);
             backintake.setPower(1);
-            sleep(3000);
+            sleep(4000);
             backintake.setPower(1);
             feederleft.setPower(1);
             feederright.setPower(1);
             intake.setPower(-1);
-            sleep(4000);
+            sleep(5000);
 
-            setMovement(0.5,0,0);
-            sleep(1000);
+            //setMovement(0.5,0,0);
+            //sleep(1500);
         }
 
 
