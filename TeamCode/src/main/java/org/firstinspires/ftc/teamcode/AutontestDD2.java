@@ -38,9 +38,9 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@Autonomous(name = "My Autonomous", group = "Competition")
+@Autonomous(name = "My Autonomous 2", group = "Competition")
 //@Disabled
-public class AutontestDD extends LinearOpMode {
+public class AutontestDD2 extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor frontLeftDrive = null;
@@ -97,9 +97,10 @@ public class AutontestDD extends LinearOpMode {
 
 
         if (opModeIsActive()) {
-
+            //setMovement(-0.5,0,0);
+            //sleep(100);
             //Demo Auton
-            shooter.setVelocity(1450);
+            shooter.setVelocity(1200);
             sleep(2500);
             feederleft.setPower(1);
             feederright.setPower(1);
@@ -112,8 +113,8 @@ public class AutontestDD extends LinearOpMode {
             intake.setPower(-1);
             sleep(5000);
 
-            setMovement(0.5,0,0);
-            sleep(1500);
+            //setMovement(0,0.5,0);
+            //sleep(1000);
         }
 
 
