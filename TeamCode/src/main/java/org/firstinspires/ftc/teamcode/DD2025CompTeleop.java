@@ -194,6 +194,14 @@ public class DD2025CompTeleop extends LinearOpMode {
             double lateral = gamepad1.left_stick_x;
             double yaw     = gamepad1.right_stick_x;
 
+            if(autoAim && gamepad1.a) {
+                if(aprilTagAngle < -5 && aprilTagAngle >  -30) {
+                    yaw = 0.1;
+                } else if (aprilTagAngle > 5 && aprilTagAngle < 30) {
+                    yaw = -0.1;
+                }
+            }
+
             // Rotate the movement direction counter to the bot's rotation
             double rotX = lateral * Math.cos(-botHeading) - axial * Math.sin(-botHeading);
             double rotY = lateral * Math.sin(-botHeading) + axial * Math.cos(-botHeading);
@@ -307,7 +315,7 @@ public class DD2025CompTeleop extends LinearOpMode {
                 // The following default settings are available to un-comment and edit as needed.
                 //.setDrawAxes(false)
                 //.setDrawCubeProjection(false)
-                //.setDrawTagOutline(true)
+                .setDrawTagOutline(true)
                 //.setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)
                 //.setTagLibrary(AprilTagGameDatabase.getCenterStageTagLibrary())
                 //.setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
@@ -346,7 +354,7 @@ public class DD2025CompTeleop extends LinearOpMode {
         //builder.enableLiveView(true);
 
         // Set the stream format; MJPEG uses less bandwidth than default YUY2.
-        //builder.setStreamFormat(VisionPortal.StreamFormat.YUY2);
+        builder.setStreamFormat(VisionPortal.StreamFormat.MJPEG);
 
         // Choose whether or not LiveView stops if no processors are enabled.
         // If set "true", monitor shows solid orange screen if no processors enabled.
