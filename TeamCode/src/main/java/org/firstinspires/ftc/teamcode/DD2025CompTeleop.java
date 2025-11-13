@@ -103,11 +103,12 @@ public class DD2025CompTeleop extends LinearOpMode {
     private DcMotorEx shooter;
     double aprilTagAngle = 5000;
     double aprilTagDistance = 100000;
+    boolean autoAim = true;
 
     @Override
     public void runOpMode() {
         initAprilTag();
-        setManualExposure(0, 255);
+        setManualExposure(1, 255);
 
 
         imu = hardwareMap.get(IMU.class, "imu");
@@ -159,7 +160,6 @@ public class DD2025CompTeleop extends LinearOpMode {
 //        shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        shooter.setMode(DcMotor.RunMode.);
         double shooterVelocity = 1400;
-        shooter.setVelocity(shooterVelocity);
 
 
 
@@ -176,10 +176,11 @@ public class DD2025CompTeleop extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-
+            shooter.setVelocity(shooterVelocity);
             detectionAprilTag();
-
-
+            if (gamepad1.startWasPressed()) {
+                autoAim = !autoAim;
+            }
             double max;
 
             double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
@@ -291,6 +292,7 @@ public class DD2025CompTeleop extends LinearOpMode {
             telemetry.addData("shooter velocity",  shooter.getVelocity());
             telemetry.addData("shooter power",  shooter.getPower());
             telemetry.addData("April tag angle", aprilTagAngle);
+            telemetry.addData("Auto Aim", autoAim);
             telemetry.update();
         }
     }
