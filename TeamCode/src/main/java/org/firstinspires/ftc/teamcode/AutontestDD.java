@@ -99,17 +99,30 @@ public class AutontestDD extends LinearOpMode {
         if (opModeIsActive()) {
 
             //Demo Auton
-            shooter.setVelocity(1450);
+            shooter.setPower(0.6);
             sleep(2500);
             feederleft.setPower(1);
             feederright.setPower(1);
-            sleep(1500);
-            backintake.setPower(1);
-            sleep(4000);
-            backintake.setPower(1);
+            // shot 1
+            sleep(3000);
+            shooter.setPower(0.7);
+            feederleft.setPower(0);
+            feederright.setPower(0);
+            sleep(1000);
+            backintake.setPower(-0.4);
+            intake.setPower(-0.4);
+            sleep(1000);
+            backintake.setPower(0);
+            intake.setPower(0);
             feederleft.setPower(1);
             feederright.setPower(1);
-            intake.setPower(-1);
+            //shot 2
+            sleep(5000);
+            shooter.setPower(0.75);
+            backintake.setPower(-0.4);
+            feederleft.setPower(1);
+            feederright.setPower(1);
+            intake.setPower(-0.4);
             sleep(5000);
 
             setMovement(0.5,0,0);
@@ -121,6 +134,7 @@ public class AutontestDD extends LinearOpMode {
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("shooter velocity", ((DcMotorEx) shooter).getVelocity());
         telemetry.addData("shooter power", ((DcMotorEx) shooter).getPower());
+        telemetry.addData("675",10);
         telemetry.update();
     }
    // hello
