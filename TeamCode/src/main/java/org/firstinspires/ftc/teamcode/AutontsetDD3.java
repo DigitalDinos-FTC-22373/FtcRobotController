@@ -38,9 +38,9 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@Autonomous(name = "Far Auton", group = "Competition")
+@Autonomous(name = "Auton close Blue", group = "Competition")
 //@Disabled
-public class AutontestDD extends LinearOpMode {
+public class AutontsetDD3 extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor frontLeftDrive = null;
@@ -98,35 +98,42 @@ public class AutontestDD extends LinearOpMode {
 
         if (opModeIsActive()) {
 
+            intake.setPower(-0.3);
+
+            setMovement(-0.5,0,0);
+            sleep(1250);
+            setMovement(0,0,0);
             //Demo Auton
-            shooter.setPower(0.6);
+            shooter.setPower(0.5);
             sleep(2500);
             feederleft.setPower(1);
             feederright.setPower(1);
-            // shot 1
-            sleep(3000);
-            shooter.setPower(0.7);
+            sleep(1000);
+            //shot 1 completed
+            feederleft.setPower(0);
+            feederright.setPower(0);
+            sleep(500);
+            shooter.setPower(0.55);
+            feederleft.setPower(1);
+            feederright.setPower(1);
+            sleep(500);
+            feederleft.setPower(0);
+            feederright.setPower(0);
+            //shot 2 completed
+            backintake.setPower(-1);
+            sleep(4000);
             feederleft.setPower(0);
             feederright.setPower(0);
             sleep(1000);
-            backintake.setPower(-0.4);
-            intake.setPower(-0.4);
-            sleep(1000);
-            backintake.setPower(0);
-            intake.setPower(0);
+            shooter.setPower(0.6);
+            backintake.setPower(-1);
             feederleft.setPower(1);
             feederright.setPower(1);
-            //shot 2
-            sleep(5000);
-            shooter.setPower(0.75);
-            backintake.setPower(-0.4);
-            feederleft.setPower(1);
-            feederright.setPower(1);
-            intake.setPower(-0.4);
-            sleep(5000);
-
-            setMovement(0.5,0,0);
-            sleep(1500);
+            intake.setPower(-1);
+            sleep(8000);
+            setMovement(0,-0.5,0);
+            // originally sideways 0.5
+            sleep(2500);
         }
 
 
@@ -134,7 +141,7 @@ public class AutontestDD extends LinearOpMode {
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("shooter velocity", ((DcMotorEx) shooter).getVelocity());
         telemetry.addData("shooter power", ((DcMotorEx) shooter).getPower());
-        telemetry.addData("10",10);
+        telemetry.addData("new update 3", 67);
         telemetry.update();
     }
    // hello

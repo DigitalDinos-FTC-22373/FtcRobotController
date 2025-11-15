@@ -38,7 +38,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@Autonomous(name = "My Autonomous 2", group = "Competition")
+@Autonomous(name = "Auton close Red", group = "Competition")
 //@Disabled
 public class AutontestDD2 extends LinearOpMode {
 
@@ -140,7 +140,7 @@ public class AutontestDD2 extends LinearOpMode {
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("shooter velocity", ((DcMotorEx) shooter).getVelocity());
         telemetry.addData("shooter power", ((DcMotorEx) shooter).getPower());
-        telemetry.addData("new update", 67);
+        telemetry.addData("new update 2", 67);
         telemetry.update();
     }
    // hello
