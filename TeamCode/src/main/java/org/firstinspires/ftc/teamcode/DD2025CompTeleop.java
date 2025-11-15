@@ -196,9 +196,9 @@ public class DD2025CompTeleop extends LinearOpMode {
 
             if(autoAim && gamepad1.a) {
                 if(aprilTagAngle < -5 && aprilTagAngle >  -30) {
-                    yaw = 0.1;
+                    yaw = 0.25;
                 } else if (aprilTagAngle > 5 && aprilTagAngle < 30) {
-                    yaw = -0.1;
+                    yaw = -0.25;
                 }
             }
 
