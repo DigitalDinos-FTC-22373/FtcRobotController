@@ -285,7 +285,9 @@ public class DD2025CompTeleop extends LinearOpMode {
             }
             shooter.setVelocity(shooterVelocity);
 
-            if (gamepad1.a) {
+            double shooterDiff = Math.abs(shooter.getVelocity() - shooterVelocity);
+
+            if (gamepad1.a && shooterDiff < 50) {
                 feederleft.setPower(1);
                 feederright.setPower(1);
             } else {
@@ -297,9 +299,11 @@ public class DD2025CompTeleop extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", backLeftPower, backRightPower);
-            telemetry.addData("shooter velocity",  shooter.getVelocity());
+            telemetry.addData("shooter velocity",  shooterVelocity);
+            telemetry.addData("shooter get velocity",  shooter.getVelocity());
             telemetry.addData("shooter power",  shooter.getPower());
             telemetry.addData("April tag angle", aprilTagAngle);
+            telemetry.addData("April tag distance", aprilTagDistance);
             telemetry.addData("Auto Aim", autoAim);
             telemetry.update();
         }
