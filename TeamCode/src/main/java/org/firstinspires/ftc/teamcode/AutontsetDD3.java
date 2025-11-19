@@ -119,8 +119,11 @@ public class AutontsetDD3 extends LinearOpMode {
             sleep(500);
             feederleft.setPower(0);
             feederright.setPower(0);
+            sleep(1000);
             //shot 2 completed
             backintake.setPower(-1);
+            feederleft.setPower(1);
+            feederright.setPower(1);
             sleep(4000);
             feederleft.setPower(0);
             feederright.setPower(0);
