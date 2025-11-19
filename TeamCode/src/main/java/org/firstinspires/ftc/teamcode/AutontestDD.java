@@ -103,7 +103,9 @@ public class AutontestDD extends LinearOpMode {
             sleep(2500);
             feederleft.setPower(1);
             feederright.setPower(1);
+
             // shot 1
+
             sleep(3000);
             shooter.setPower(0.7);
             feederleft.setPower(0);
@@ -116,17 +118,25 @@ public class AutontestDD extends LinearOpMode {
             intake.setPower(0);
             feederleft.setPower(1);
             feederright.setPower(1);
+
             //shot 2
-            sleep(5000);
-            shooter.setPower(0.75);
+
+            sleep(3000);
+            feederleft.setPower(0);
+            feederright.setPower(0);
+            sleep(1000);
             backintake.setPower(-0.4);
+            intake.setPower(-0.4);
+            sleep(1000);
+            backintake.setPower(-0.4);
+            intake.setPower(-0.4);
             feederleft.setPower(1);
             feederright.setPower(1);
-            intake.setPower(-0.4);
+            shooter.setPower(0.75);
             sleep(5000);
 
             setMovement(0.5,0,0);
-            sleep(1500);
+            sleep(750);
         }
 
 
