@@ -197,12 +197,11 @@ public class DD2025CompTeleop extends LinearOpMode {
             double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
             double lateral = gamepad1.left_stick_x;
             double yaw     = gamepad1.right_stick_x;
+            double kp = -0.015;
 
             if(autoAim && gamepad1.a) {
-                if(aprilTagAngle < -5 && aprilTagAngle >  -30) {
-                    yaw = 0.25;
-                } else if (aprilTagAngle > 5 && aprilTagAngle < 30) {
-                    yaw = -0.25;
+                if (aprilTagAngle > -45 && aprilTagAngle < 45) {
+                    yaw = aprilTagAngle * kp;
                 }
             }
 
