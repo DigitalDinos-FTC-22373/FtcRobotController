@@ -73,7 +73,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
  */
 
 @TeleOp(name="Basic: Omni Linear OpMode", group="Linear OpMode")
-//@Disabled
+@Disabled
 public class FoxFieldCentricDriveTest extends LinearOpMode {
 
     IMU imu;
