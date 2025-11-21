@@ -108,35 +108,36 @@ public class AutontsetDD3 extends LinearOpMode {
             sleep(2500);
             feederleft.setPower(1);
             feederright.setPower(1);
-            sleep(1000);
+            sleep(1500);
             //shot 1 completed
+            shooter.setPower(0.5);
             feederleft.setPower(0);
             feederright.setPower(0);
-            sleep(500);
-            shooter.setPower(0.55);
+            sleep(1500);
+            backintake.setPower(-1);
+            sleep(1000);
+            backintake.setPower(0);
+            sleep(1000);
             feederleft.setPower(1);
             feederright.setPower(1);
-            sleep(500);
-            feederleft.setPower(0);
-            feederright.setPower(0);
-            sleep(1000);
+            sleep(1500);
             //shot 2 completed
-            backintake.setPower(-1);
-            feederleft.setPower(1);
-            feederright.setPower(1);
-            sleep(4000);
+            shooter.setPower(0.6);
             feederleft.setPower(0);
             feederright.setPower(0);
             sleep(1000);
-            shooter.setPower(0.6);
             backintake.setPower(-1);
+            sleep(1000);
+            backintake.setPower(0);
+            sleep(500);
             feederleft.setPower(1);
             feederright.setPower(1);
-            intake.setPower(-1);
-            sleep(8000);
-            setMovement(0,-0.5,0);
-            // originally sideways 0.5
-            sleep(2500);
+            sleep(3000);
+            feederleft.setPower(0);
+            feederright.setPower(0);
+            // shot 3
+            setMovement(0.6,0.25,0);
+            sleep(950);
         }
 
 
