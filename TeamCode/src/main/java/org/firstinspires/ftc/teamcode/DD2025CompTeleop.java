@@ -105,10 +105,14 @@ public class DD2025CompTeleop extends LinearOpMode {
     double aprilTagDistance = 100000;
     boolean autoAim = true;
 
+    Datalog datalog;
+
     @Override
     public void runOpMode() {
         initAprilTag();
         setManualExposure(1, 255);
+
+        datalog = new Datalog("DD_Log_Testing");
 
 
         imu = hardwareMap.get(IMU.class, "imu");
@@ -314,6 +318,11 @@ public class DD2025CompTeleop extends LinearOpMode {
             telemetry.addData("April tag distance", aprilTagDistance);
             telemetry.addData("Auto Aim", autoAim);
             telemetry.update();
+
+            // add data logger fields
+            datalog.shooterSetVelocity.set(shooterVelocity);
+            datalog.shooterVelocity.set(shooter.getVelocity());
+            datalog.writeLine();
         }
     }
     /**
@@ -463,6 +472,57 @@ public class DD2025CompTeleop extends LinearOpMode {
             return (true);
         } else {
             return (false);
+        }
+    }
+
+    /*
+     * This class encapsulates all the fields that will go into the datalog.
+     */
+    public static class Datalog
+    {
+        // The underlying datalogger object - it cares only about an array of loggable fields
+        private final Datalogger datalogger;
+
+        // These are all of the fields that we want in the datalog.
+        // Note that order here is NOT important. The order is important in the setFields() call below
+        public Datalogger.GenericField shooterVelocity = new Datalogger.GenericField("shooterVelocity");
+        public Datalogger.GenericField shooterSetVelocity  = new Datalogger.GenericField("shooterSetVelocity");
+        public Datalogger.GenericField yaw          = new Datalogger.GenericField("Yaw");
+        public Datalogger.GenericField pitch        = new Datalogger.GenericField("Pitch");
+        public Datalogger.GenericField roll         = new Datalogger.GenericField("Roll");
+        public Datalogger.GenericField battery      = new Datalogger.GenericField("Battery");
+
+
+        public Datalog(String name)
+        {
+            // Build the underlying datalog object
+            datalogger = new Datalogger.Builder()
+
+                    // Pass through the filename
+                    .setFilename(name)
+
+                    // Request an automatic timestamp field
+                    .setAutoTimestamp(Datalogger.AutoTimestamp.DECIMAL_SECONDS)
+
+                    // Tell it about the fields we care to log.
+                    // Note that order *IS* important here! The order in which we list
+                    // the fields is the order in which they will appear in the log.
+                    .setFields(
+                            shooterVelocity,
+                            shooterSetVelocity,
+                            yaw,
+                            pitch,
+                            roll,
+                            battery
+                    )
+                    .build();
+        }
+
+        // Tell the datalogger to gather the values of the fields
+        // and write a new line in the log.
+        public void writeLine()
+        {
+            datalogger.writeLine();
         }
     }
 }   // end class
