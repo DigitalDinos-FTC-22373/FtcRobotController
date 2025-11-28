@@ -291,8 +291,13 @@ public class DD2025CompTeleop extends LinearOpMode {
             double shooterDiff = Math.abs(shooter.getVelocity() - shooterVelocity);
 
             if (gamepad1.a && shooterDiff < 50) {
-                feederleft.setPower(1);
-                feederright.setPower(1);
+                if (!autoAim || Math.abs(aprilTagAngle) < 3) {
+                    feederleft.setPower(1);
+                    feederright.setPower(1);
+                } else {
+                    feederleft.setPower(0);
+                    feederright.setPower(0);
+                }
             } else {
                 feederleft.setPower(0);
                 feederright.setPower(0);
