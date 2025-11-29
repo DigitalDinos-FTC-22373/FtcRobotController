@@ -81,6 +81,7 @@ import java.util.concurrent.TimeUnit;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
+
 @TeleOp
 //@Disabled
 public class DD2025CompTeleop extends LinearOpMode {
@@ -104,6 +105,8 @@ public class DD2025CompTeleop extends LinearOpMode {
     double aprilTagAngle = 5000;
     double aprilTagDistance = 100000;
     boolean autoAim = true;
+
+    boolean autoVelocity = true;
 
     Datalog datalog;
 
@@ -188,6 +191,9 @@ public class DD2025CompTeleop extends LinearOpMode {
             detectionAprilTag();
             if (gamepad1.startWasPressed()) {
                 autoAim = !autoAim;
+            }
+            if(gamepad1.backWasPressed()){
+                autoVelocity = !autoVelocity;
             }
             double max;
 
@@ -283,18 +289,23 @@ public class DD2025CompTeleop extends LinearOpMode {
             if (gamepad2.dpad_down) {
                 backintake.setPower(-1);
             }
-
-            if (gamepad2.rightBumperWasPressed()) {
-                shooterVelocity += 20;
+            if (!autoVelocity) {
+                if (gamepad2.rightBumperWasPressed()) {
+                    shooterVelocity += 20;
+                }
+                if (gamepad2.leftBumperWasPressed()) {
+                    shooterVelocity -= 20;
+                }
             }
-            if (gamepad2.leftBumperWasPressed()) {
-                shooterVelocity -= 20;
+            else {
+                //regression determined by data collection
+                shooterVelocity= 4.21*aprilTagDistance +987;
             }
             shooter.setVelocity(shooterVelocity);
 
             double shooterDiff = Math.abs(shooter.getVelocity() - shooterVelocity);
 
-            if (gamepad1.a && shooterDiff < 50) {
+            if (gamepad1.a && shooterDiff < 81) {
                 if (!autoAim || Math.abs(aprilTagAngle) < 3) {
                     feederleft.setPower(1);
                     feederright.setPower(1);
@@ -322,7 +333,7 @@ public class DD2025CompTeleop extends LinearOpMode {
             // add data logger fields
             datalog.shooterSetVelocity.set(shooterVelocity);
             datalog.shooterVelocity.set(shooter.getVelocity());
-            datalog.writeLine();
+            datalog.writeLine();*
         }
     }
     /**
