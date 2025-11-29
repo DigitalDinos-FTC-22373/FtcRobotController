@@ -333,7 +333,7 @@ public class DD2025CompTeleop extends LinearOpMode {
             // add data logger fields
             datalog.shooterSetVelocity.set(shooterVelocity);
             datalog.shooterVelocity.set(shooter.getVelocity());
-            datalog.writeLine();*
+            datalog.writeLine();
         }
     }
     /**
