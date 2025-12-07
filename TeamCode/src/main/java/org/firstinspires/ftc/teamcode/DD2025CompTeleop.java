@@ -181,7 +181,7 @@ public class DD2025CompTeleop extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        backintake.setPower(1);
+        backintake.setPower(0);
         intake.setPower(-1);
 
 
