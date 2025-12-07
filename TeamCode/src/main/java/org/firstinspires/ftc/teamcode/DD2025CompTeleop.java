@@ -337,6 +337,7 @@ public class DD2025CompTeleop extends LinearOpMode {
             datalog.DLYaycmd.set(yaw);
             datalog.DLFeeder.set(feederleft.getPower());
             datalog.DLGamepadA. set(gamepad1.a);
+            datalog.DLApriltagangle.set(aprilTagAngle);
             datalog.yaw.set(botHeading);
             datalog.writeLine();
         }
