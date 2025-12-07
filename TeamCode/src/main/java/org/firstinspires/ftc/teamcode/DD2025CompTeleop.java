@@ -328,11 +328,16 @@ public class DD2025CompTeleop extends LinearOpMode {
             telemetry.addData("April tag angle", aprilTagAngle);
             telemetry.addData("April tag distance", aprilTagDistance);
             telemetry.addData("Auto Aim", autoAim);
+            telemetry.addData("Auto Velocity", autoVelocity);
             telemetry.update();
 
             // add data logger fields
             datalog.shooterSetVelocity.set(shooterVelocity);
             datalog.shooterVelocity.set(shooter.getVelocity());
+            datalog.DLYaycmd.set(yaw);
+            datalog.DLFeeder.set(feederleft.getPower());
+            datalog.DLGamepadA. set(gamepad1.a);
+            datalog.yaw.set(botHeading);
             datalog.writeLine();
         }
     }
@@ -499,10 +504,10 @@ public class DD2025CompTeleop extends LinearOpMode {
         public Datalogger.GenericField shooterVelocity = new Datalogger.GenericField("shooterVelocity");
         public Datalogger.GenericField shooterSetVelocity  = new Datalogger.GenericField("shooterSetVelocity");
         public Datalogger.GenericField yaw          = new Datalogger.GenericField("Yaw");
-        public Datalogger.GenericField pitch        = new Datalogger.GenericField("Pitch");
-        public Datalogger.GenericField roll         = new Datalogger.GenericField("Roll");
-        public Datalogger.GenericField battery      = new Datalogger.GenericField("Battery");
-
+        public Datalogger.GenericField DLApriltagangle        = new Datalogger.GenericField("April tag angle");
+        public Datalogger.GenericField DLYaycmd         = new Datalogger.GenericField("Yawcmd");
+        public Datalogger.GenericField DLGamepadA      = new Datalogger.GenericField("DLGamepadA");
+        public Datalogger.GenericField DLFeeder      = new Datalogger.GenericField("Feeder");
 
         public Datalog(String name)
         {
@@ -522,9 +527,10 @@ public class DD2025CompTeleop extends LinearOpMode {
                             shooterVelocity,
                             shooterSetVelocity,
                             yaw,
-                            pitch,
-                            roll,
-                            battery
+                            DLApriltagangle,
+                            DLYaycmd,
+                            DLGamepadA,
+                            DLFeeder
                     )
                     .build();
         }
