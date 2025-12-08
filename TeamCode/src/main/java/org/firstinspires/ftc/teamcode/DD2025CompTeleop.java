@@ -104,11 +104,15 @@ public class DD2025CompTeleop extends LinearOpMode {
     private CRServo feederright;
     private DcMotorEx shooter;
     double aprilTagAngle = 5000;
+    double at_x = 5000;
+    double at_y = 5000;
+    double at_yaw = 5000;
+    double at_2_gc_x = 5000;
+    double at_2_gc_y = 5000;
     double goalCornerAngle = 5000;
     double APRILTAGANGLETOLERANCE = 3.0;
     double aprilTagDistance = 300;
     boolean autoAim = true;
-
     boolean autoVelocity = true;
 
     Datalog datalog;
@@ -341,6 +345,11 @@ public class DD2025CompTeleop extends LinearOpMode {
             telemetry.addData("shooter power",  shooter.getPower());
             telemetry.addData("April tag angle", aprilTagAngle);
             telemetry.addData("goal corner angle", goalCornerAngle);
+            telemetry.addData("apriltag x", at_x);
+            telemetry.addData("apriltag y", at_y);
+            telemetry.addData("apriltag yaw", at_yaw);
+            telemetry.addData("apriltag 2 gc x", at_2_gc_x);
+            telemetry.addData("apriltag 2 gc y", at_2_gc_y);
             telemetry.addData("April tag distance", aprilTagDistance);
             telemetry.addData("Auto Aim", autoAim);
             telemetry.addData("Auto Velocity", autoVelocity);
@@ -451,15 +460,15 @@ public class DD2025CompTeleop extends LinearOpMode {
                     if (Math.abs(detection.ftcPose.bearing) < Math.abs(aprilTagAngle) ) {
                         aprilTagAngle = detection.ftcPose.bearing;
 
-                        double at_x = detection.ftcPose.x;
-                        double at_y = detection.ftcPose.y;
-                        double at_yaw = detection.ftcPose.yaw;
+                        at_x = detection.ftcPose.x;
+                        at_y = detection.ftcPose.y;
+                        at_yaw = detection.ftcPose.yaw;
                         // goal corner is 18 inches directly behind april tag
-                        double at_2_gc_x = 18.0 * Math.cos(at_yaw);
-                        double at_2_gc_y = 18.0 * Math.sin(at_yaw);
+                        at_2_gc_x = 18.0 * Math.sin(Math.toRadians(-at_yaw));
+                        at_2_gc_y = 18.0 * Math.cos(Math.toRadians(-at_yaw));
                         double gc_x = at_x + at_2_gc_x;
                         double gc_y = at_y + at_2_gc_y;
-                        goalCornerAngle = Math.atan2(gc_y, gc_x);
+                        goalCornerAngle = -Math.toDegrees(Math.atan2(gc_x, gc_y)) ;
                     }
                     aprilTagDistance = detection.ftcPose.range;
                 }
