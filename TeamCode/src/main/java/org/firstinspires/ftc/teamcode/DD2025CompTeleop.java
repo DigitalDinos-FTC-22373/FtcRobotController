@@ -103,7 +103,8 @@ public class DD2025CompTeleop extends LinearOpMode {
     private CRServo feederright;
     private DcMotorEx shooter;
     double aprilTagAngle = 5000;
-    double aprilTagDistance = 100000;
+    double APRILTAGANGLETOLERANCE = 3.0;
+    double aprilTagDistance = 300;
     boolean autoAim = true;
 
     boolean autoVelocity = true;
@@ -183,6 +184,7 @@ public class DD2025CompTeleop extends LinearOpMode {
 
         backintake.setPower(0);
         intake.setPower(-1);
+        shooter.setVelocity(0);
 
 
         // run until the end of the match (driver presses STOP)
@@ -210,8 +212,16 @@ public class DD2025CompTeleop extends LinearOpMode {
             double kp = -0.015;
 
             if(autoAim && gamepad1.a) {
-                if (aprilTagAngle > -45 && aprilTagAngle < 45) {
+                if ((aprilTagAngle > -45 && aprilTagAngle < -APRILTAGANGLETOLERANCE) ||
+                    (aprilTagAngle > APRILTAGANGLETOLERANCE && aprilTagAngle < 45) ) {
                     yaw = aprilTagAngle * kp;
+                    if (Math.abs(yaw) < 0.15) {
+                        if (yaw > 0) {
+                            yaw = 0.15;
+                        } else {
+                            yaw = -0.15;
+                        }
+                    }
                 }
             }
 
@@ -298,15 +308,17 @@ public class DD2025CompTeleop extends LinearOpMode {
                 }
             }
             else {
-                //regression determined by data collection
-                shooterVelocity= 4.21*aprilTagDistance +987;
+                if (aprilTagDistance < 250) {
+                    //regression determined by data collection
+                    shooterVelocity = 4.21 * aprilTagDistance + 987;
+                }
             }
             shooter.setVelocity(shooterVelocity);
 
             double shooterDiff = Math.abs(shooter.getVelocity() - shooterVelocity);
 
-            if (gamepad1.a && shooterDiff < 81) {
-                if (!autoAim || Math.abs(aprilTagAngle) < 3) {
+            if (gamepad1.a && shooterDiff < 101) {
+                if (!autoAim || Math.abs(aprilTagAngle) < APRILTAGANGLETOLERANCE) {
                     feederleft.setPower(1);
                     feederright.setPower(1);
                 } else {
@@ -332,12 +344,13 @@ public class DD2025CompTeleop extends LinearOpMode {
             telemetry.update();
 
             // add data logger fields
-            datalog.shooterSetVelocity.set(shooterVelocity);
-            datalog.shooterVelocity.set(shooter.getVelocity());
+            datalog.shooterSetVelocity.set(shooterVelocity / 1000);
+            datalog.shooterVelocity.set(shooter.getVelocity() / 1000);
             datalog.DLYaycmd.set(yaw);
             datalog.DLFeeder.set(feederleft.getPower());
-            datalog.DLGamepadA. set(gamepad1.a);
-            datalog.DLApriltagangle.set(aprilTagAngle);
+            datalog.DLGamepadA.set(gamepad1.a ? 1 : 0);
+            datalog.DLApriltagangle.set(aprilTagAngle > 4000 ? 0 : aprilTagAngle / 100);
+            datalog.AprilTagDist.set(aprilTagDistance / 12 / 10);
             datalog.yaw.set(botHeading);
             datalog.writeLine();
         }
@@ -505,7 +518,8 @@ public class DD2025CompTeleop extends LinearOpMode {
         public Datalogger.GenericField shooterVelocity = new Datalogger.GenericField("shooterVelocity");
         public Datalogger.GenericField shooterSetVelocity  = new Datalogger.GenericField("shooterSetVelocity");
         public Datalogger.GenericField yaw          = new Datalogger.GenericField("Yaw");
-        public Datalogger.GenericField DLApriltagangle        = new Datalogger.GenericField("April tag angle");
+        public Datalogger.GenericField DLApriltagangle        = new Datalogger.GenericField("April tag angle / 100");
+        public Datalogger.GenericField AprilTagDist        = new Datalogger.GenericField("April tag distance (ft / 10)");
         public Datalogger.GenericField DLYaycmd         = new Datalogger.GenericField("Yawcmd");
         public Datalogger.GenericField DLGamepadA      = new Datalogger.GenericField("DLGamepadA");
         public Datalogger.GenericField DLFeeder      = new Datalogger.GenericField("Feeder");
@@ -529,6 +543,7 @@ public class DD2025CompTeleop extends LinearOpMode {
                             shooterSetVelocity,
                             yaw,
                             DLApriltagangle,
+                            AprilTagDist,
                             DLYaycmd,
                             DLGamepadA,
                             DLFeeder
