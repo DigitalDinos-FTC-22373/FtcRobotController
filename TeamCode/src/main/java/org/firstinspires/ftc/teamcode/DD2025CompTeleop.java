@@ -49,6 +49,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.opencv.core.Mat;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -103,6 +104,7 @@ public class DD2025CompTeleop extends LinearOpMode {
     private CRServo feederright;
     private DcMotorEx shooter;
     double aprilTagAngle = 5000;
+    double goalCornerAngle = 5000;
     double APRILTAGANGLETOLERANCE = 3.0;
     double aprilTagDistance = 300;
     boolean autoAim = true;
@@ -212,9 +214,9 @@ public class DD2025CompTeleop extends LinearOpMode {
             double kp = -0.015;
 
             if(autoAim && gamepad1.a) {
-                if ((aprilTagAngle > -45 && aprilTagAngle < -APRILTAGANGLETOLERANCE) ||
-                    (aprilTagAngle > APRILTAGANGLETOLERANCE && aprilTagAngle < 45) ) {
-                    yaw = aprilTagAngle * kp;
+                if ((goalCornerAngle > -45 && goalCornerAngle < -APRILTAGANGLETOLERANCE) ||
+                    (goalCornerAngle > APRILTAGANGLETOLERANCE && goalCornerAngle < 45) ) {
+                    yaw = goalCornerAngle * kp;
                     if (Math.abs(yaw) < 0.15) {
                         if (yaw > 0) {
                             yaw = 0.15;
@@ -318,7 +320,7 @@ public class DD2025CompTeleop extends LinearOpMode {
             double shooterDiff = Math.abs(shooter.getVelocity() - shooterVelocity);
 
             if (gamepad1.a && shooterDiff < 101) {
-                if (!autoAim || Math.abs(aprilTagAngle) < APRILTAGANGLETOLERANCE) {
+                if (!autoAim || Math.abs(goalCornerAngle) < APRILTAGANGLETOLERANCE) {
                     feederleft.setPower(1);
                     feederright.setPower(1);
                 } else {
@@ -338,6 +340,7 @@ public class DD2025CompTeleop extends LinearOpMode {
             telemetry.addData("shooter get velocity",  shooter.getVelocity());
             telemetry.addData("shooter power",  shooter.getPower());
             telemetry.addData("April tag angle", aprilTagAngle);
+            telemetry.addData("goal corner angle", goalCornerAngle);
             telemetry.addData("April tag distance", aprilTagDistance);
             telemetry.addData("Auto Aim", autoAim);
             telemetry.addData("Auto Velocity", autoVelocity);
@@ -350,6 +353,7 @@ public class DD2025CompTeleop extends LinearOpMode {
             datalog.DLFeeder.set(feederleft.getPower());
             datalog.DLGamepadA.set(gamepad1.a ? 1 : 0);
             datalog.DLApriltagangle.set(aprilTagAngle > 4000 ? 0 : aprilTagAngle / 100);
+            datalog.DLGoalCornerAngle.set(goalCornerAngle > 4000 ? 0 : goalCornerAngle / 100);
             datalog.AprilTagDist.set(aprilTagDistance / 12 / 10);
             datalog.yaw.set(botHeading);
             datalog.writeLine();
@@ -433,6 +437,7 @@ public class DD2025CompTeleop extends LinearOpMode {
         //telemetry.addData("# AprilTags Detected", currentDetections.size());
 
         aprilTagAngle = 5000;
+        goalCornerAngle = 5000;
 
         // Step through the list of detections and display info for each one.
         for (AprilTagDetection detection : currentDetections) {
@@ -445,20 +450,22 @@ public class DD2025CompTeleop extends LinearOpMode {
 
                     if (Math.abs(detection.ftcPose.bearing) < Math.abs(aprilTagAngle) ) {
                         aprilTagAngle = detection.ftcPose.bearing;
+
+                        double at_x = detection.ftcPose.x;
+                        double at_y = detection.ftcPose.y;
+                        double at_yaw = detection.ftcPose.yaw;
+                        // goal corner is 18 inches directly behind april tag
+                        double at_2_gc_x = 18.0 * Math.cos(at_yaw);
+                        double at_2_gc_y = 18.0 * Math.sin(at_yaw);
+                        double gc_x = at_x + at_2_gc_x;
+                        double gc_y = at_y + at_2_gc_y;
+                        goalCornerAngle = Math.atan2(gc_y, gc_x);
                     }
                     aprilTagDistance = detection.ftcPose.range;
                 }
-            } else {
-                //telemetry.addLine(String.format("\n==== (ID %d) Unknown", detection.id));
-                //telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
             }
 
         }   // end for() loop
-
-        // Add "key" information to telemetry
-//        telemetry.addLine("\nkey:\nXYZ = X (Right), Y (Forward), Z (Up) dist.");
-//        telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
-//        telemetry.addLine("RBE = Range, Bearing & Elevation");
 
     }   // end method telemetryAprilTag()
     /*
@@ -519,6 +526,7 @@ public class DD2025CompTeleop extends LinearOpMode {
         public Datalogger.GenericField shooterSetVelocity  = new Datalogger.GenericField("shooterSetVelocity");
         public Datalogger.GenericField yaw          = new Datalogger.GenericField("Yaw");
         public Datalogger.GenericField DLApriltagangle        = new Datalogger.GenericField("April tag angle / 100");
+        public Datalogger.GenericField DLGoalCornerAngle        = new Datalogger.GenericField("Goal Corner angle / 100");
         public Datalogger.GenericField AprilTagDist        = new Datalogger.GenericField("April tag distance (ft / 10)");
         public Datalogger.GenericField DLYaycmd         = new Datalogger.GenericField("Yawcmd");
         public Datalogger.GenericField DLGamepadA      = new Datalogger.GenericField("DLGamepadA");
@@ -543,6 +551,7 @@ public class DD2025CompTeleop extends LinearOpMode {
                             shooterSetVelocity,
                             yaw,
                             DLApriltagangle,
+                            DLGoalCornerAngle,
                             AprilTagDist,
                             DLYaycmd,
                             DLGamepadA,
