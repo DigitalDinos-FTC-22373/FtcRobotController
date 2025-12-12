@@ -174,7 +174,7 @@ public class DD2025CompTeleop extends LinearOpMode {
 //        shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        shooter.setMode(DcMotor.RunMode.);
         double shooterVelocity = 1400;
-
+        double shooterAdjustment = 900;
 
 
         // Wait for the game to start (driver presses START)
@@ -307,16 +307,16 @@ public class DD2025CompTeleop extends LinearOpMode {
             }
             if (!autoVelocity) {
                 if (gamepad2.rightBumperWasPressed()) {
-                    shooterVelocity += 20;
+                    shooterAdjustment += 20;
                 }
                 if (gamepad2.leftBumperWasPressed()) {
-                    shooterVelocity -= 20;
+                    shooterAdjustment -= 20;
                 }
             }
             else {
                 if (aprilTagDistance < 250) {
                     //regression determined by data collection
-                    shooterVelocity = 4.21 * aprilTagDistance + 987;
+                    shooterVelocity = 4.21 * aprilTagDistance + shooterAdjustment;
                 }
             }
             shooter.setVelocity(shooterVelocity);

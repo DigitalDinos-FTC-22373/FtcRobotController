@@ -98,19 +98,19 @@ public class AutontestDD2 extends LinearOpMode {
 
         if (opModeIsActive()) {
 
-            intake.setPower(-0.3);
+            intake.setPower(-1);
 
-            setMovement(-0.5,0,0);
-            sleep(1250);
+            setMovement(-0.4,0,0);
+            sleep(1500);
             setMovement(0,0,0);
             //Demo Auton
             shooter.setPower(0.5);
             sleep(2500);
             feederleft.setPower(1);
             feederright.setPower(1);
-            sleep(1500);
+            sleep(2500);
             //shot 1 completed
-            shooter.setPower(0.55);
+            shooter.setPower(0.5);
             feederleft.setPower(0);
             feederright.setPower(0);
             sleep(1500);
@@ -120,9 +120,9 @@ public class AutontestDD2 extends LinearOpMode {
             sleep(1000);
             feederleft.setPower(1);
             feederright.setPower(1);
-            sleep(1500);
+            sleep(2500);
             //shot 2 completed
-            shooter.setPower(0.6);
+            shooter.setPower(0.5);
             feederleft.setPower(0);
             feederright.setPower(0);
             sleep(1000);
