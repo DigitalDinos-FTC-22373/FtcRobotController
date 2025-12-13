@@ -181,7 +181,7 @@ public class DD2025CompTeleop extends LinearOpMode {
 //        shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        shooter.setMode(DcMotor.RunMode.);
         double shooterVelocity = 1400;
-        double shooterAdjustment = 940;
+        double shooterAdjustment = 960;
 
 
         // Wait for the game to start (driver presses START)
@@ -383,7 +383,7 @@ public class DD2025CompTeleop extends LinearOpMode {
             datalog.shooterVelocity.set(shooter.getVelocity() / 1000);
             datalog.DLYaycmd.set(yaw);
             datalog.DLFeeder.set(feederleft.getPower());
-            datalog.DLGamepadA.set(gamepad1.a ? 1 : 0);
+            datalog.DLGamepadA.set(gamepad1.a ? 0.2 : -0.2);
             datalog.DLApriltagangle.set(aprilTagAngle > 4000 ? 0 : aprilTagAngle / 100);
             datalog.DLGoalCornerAngle.set(goalCornerAngle > 4000 ? 0 : goalCornerAngle / 100);
             datalog.AprilTagDist.set(aprilTagDistance / 12 / 10);
