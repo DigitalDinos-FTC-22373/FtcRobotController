@@ -110,10 +110,12 @@ public class DD2025CompTeleop extends LinearOpMode {
     double at_2_gc_x = 5000;
     double at_2_gc_y = 5000;
     double goalCornerAngle = 5000;
-    double APRILTAGANGLETOLERANCE = 3.0;
+    double APRILTAGANGLETOLERANCE = 2.0;
     double aprilTagDistance = 300;
     boolean autoAim = true;
     boolean autoVelocity = true;
+    boolean slowMove = false;
+    boolean slowTurn = false;
 
     Datalog datalog;
 
@@ -174,7 +176,7 @@ public class DD2025CompTeleop extends LinearOpMode {
 //        shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        shooter.setMode(DcMotor.RunMode.);
         double shooterVelocity = 1400;
-        double shooterAdjustment = 900;
+        double shooterAdjustment = 940;
 
 
         // Wait for the game to start (driver presses START)
@@ -200,6 +202,12 @@ public class DD2025CompTeleop extends LinearOpMode {
             if (gamepad1.startWasPressed()) {
                 autoAim = !autoAim;
             }
+            if (gamepad1.leftStickButtonWasPressed()) {
+                slowMove = !slowMove;
+            }
+            if (gamepad1.rightStickButtonWasPressed()) {
+                slowTurn = !slowTurn;
+            }
             if(gamepad1.backWasPressed()){
                 autoVelocity = !autoVelocity;
             }
@@ -211,10 +219,14 @@ public class DD2025CompTeleop extends LinearOpMode {
                 imu.resetYaw();
             }
 
+            double moveMultiplier = slowMove ? 0.2 : 1.0;
+
+            double turnMultiplier = slowTurn ? 0.2 : 1.0;
+
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
-            double lateral = gamepad1.left_stick_x;
-            double yaw     = gamepad1.right_stick_x;
+            double axial   = -gamepad1.left_stick_y * moveMultiplier;  // Note: pushing stick forward gives negative value
+            double lateral = gamepad1.left_stick_x * moveMultiplier;
+            double yaw     = gamepad1.right_stick_x * turnMultiplier;
             double kp = -0.015;
 
             if(autoAim && gamepad1.a) {
