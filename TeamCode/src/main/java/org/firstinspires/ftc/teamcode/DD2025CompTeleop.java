@@ -39,6 +39,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
@@ -102,6 +103,8 @@ public class DD2025CompTeleop extends LinearOpMode {
     private DcMotor backintake;
     private CRServo feederleft;
     private CRServo feederright;
+    private Servo kicker;
+
     private DcMotorEx shooter;
     double aprilTagAngle = 5000;
     double at_x = 5000;
@@ -151,6 +154,8 @@ public class DD2025CompTeleop extends LinearOpMode {
         feederleft = hardwareMap.get(CRServo.class, "feeder left");
         feederright = hardwareMap.get(CRServo.class, "feeder right");
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
+        kicker = hardwareMap.get(Servo.class, "kicker");
+        kicker.setDirection(Servo.Direction.FORWARD);
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -317,6 +322,12 @@ public class DD2025CompTeleop extends LinearOpMode {
             if (gamepad2.dpad_down) {
                 backintake.setPower(-1);
             }
+            if (gamepad2.y) {
+                kicker.setPosition(0.35);
+            } else {
+                kicker.setPosition(0);
+            }
+
             if (!autoVelocity) {
                 if (gamepad2.rightBumperWasPressed()) {
                     shooterAdjustment += 20;
