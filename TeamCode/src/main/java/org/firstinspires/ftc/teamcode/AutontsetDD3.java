@@ -136,8 +136,8 @@ public class AutontsetDD3 extends LinearOpMode {
             feederleft.setPower(0);
             feederright.setPower(0);
             // shot 3
-            setMovement(0.6,0.25,0);
-            sleep(950);
+            setMovement(0.25,0.5,0);
+            sleep(1000);
         }
 
 
