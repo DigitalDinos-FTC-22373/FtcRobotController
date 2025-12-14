@@ -113,7 +113,7 @@ public class DD2025CompTeleop extends LinearOpMode {
     double at_2_gc_x = 5000;
     double at_2_gc_y = 5000;
     double goalCornerAngle = 5000;
-    double APRILTAGANGLETOLERANCE = 2.0;
+    double APRILTAGANGLETOLERANCE = 2.5;
     double aprilTagDistance = 300;
     boolean autoAim = true;
     boolean autoVelocity = true;
@@ -125,7 +125,7 @@ public class DD2025CompTeleop extends LinearOpMode {
     @Override
     public void runOpMode() {
         initAprilTag();
-        setManualExposure(12, 255);
+        setManualExposure(5, 255);
 
         datalog = new Datalog("DD_Log_Testing");
 
