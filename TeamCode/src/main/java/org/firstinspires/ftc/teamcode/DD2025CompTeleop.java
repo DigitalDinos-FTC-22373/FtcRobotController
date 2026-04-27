@@ -322,7 +322,7 @@ public class DD2025CompTeleop extends LinearOpMode {
             if (gamepad2.dpad_down) {
                 backintake.setPower(-1);
             }
-            if (gamepad2.y) {
+            if (gamepad2.x || gamepad1.x) {
                 kicker.setPosition(0.35);
             } else {
                 kicker.setPosition(0);
