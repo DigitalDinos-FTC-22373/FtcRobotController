@@ -174,8 +174,8 @@ public class DD2025CompTeleop extends LinearOpMode {
 
         intake.setDirection(DcMotor.Direction.FORWARD);
         backintake.setDirection(DcMotor.Direction.FORWARD);
-        feederleft.setDirection(CRServo.Direction.FORWARD);
-        feederright.setDirection(CRServo.Direction.REVERSE);
+        feederleft.setDirection(CRServo.Direction.REVERSE);
+        feederright.setDirection(CRServo.Direction.FORWARD);
         shooter.setDirection(DcMotor.Direction.REVERSE);
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
