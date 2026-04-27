@@ -367,12 +367,12 @@ public class DD2025CompTeleop extends LinearOpMode {
             telemetry.addData("shooter get velocity",  shooter.getVelocity());
             telemetry.addData("shooter power",  shooter.getPower());
             telemetry.addData("April tag angle", aprilTagAngle);
-            telemetry.addData("goal corner angle", goalCornerAngle);
-            telemetry.addData("apriltag x", at_x);
-            telemetry.addData("apriltag y", at_y);
-            telemetry.addData("apriltag yaw", at_yaw);
-            telemetry.addData("apriltag 2 gc x", at_2_gc_x);
-            telemetry.addData("apriltag 2 gc y", at_2_gc_y);
+//            telemetry.addData("goal corner angle", goalCornerAngle);
+//            telemetry.addData("apriltag x", at_x);
+//            telemetry.addData("apriltag y", at_y);
+//            telemetry.addData("apriltag yaw", at_yaw);
+//            telemetry.addData("apriltag 2 gc x", at_2_gc_x);
+//            telemetry.addData("apriltag 2 gc y", at_2_gc_y);
             telemetry.addData("April tag distance", aprilTagDistance);
             telemetry.addData("Auto Aim", autoAim);
             telemetry.addData("Auto Velocity", autoVelocity);
