@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import android.util.Size;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -47,6 +48,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -104,8 +106,9 @@ public class DD2025CompTeleop extends LinearOpMode {
     private CRServo feederleft;
     private CRServo feederright;
     private Servo kicker;
-
     private DcMotorEx shooter;
+    private SparkFunOTOS sparkFunOTOS;
+
     double aprilTagAngle = 5000;
     double at_x = 5000;
     double at_y = 5000;
@@ -138,6 +141,9 @@ public class DD2025CompTeleop extends LinearOpMode {
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
 
         imu.initialize(new IMU.Parameters(orientationOnRobot));
+
+        sparkFunOTOS = hardwareMap.get(SparkFunOTOS.class, "otos");
+        configureOTOS();
 
 
         // Initialize the hardware variables. Note that the strings used here must correspond
@@ -225,7 +231,6 @@ public class DD2025CompTeleop extends LinearOpMode {
             }
 
             double moveMultiplier = slowMove ? 0.2 : 1.0;
-
             double turnMultiplier = slowTurn ? 0.2 : 1.0;
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
@@ -359,8 +364,12 @@ public class DD2025CompTeleop extends LinearOpMode {
                 feederright.setPower(0);
             }
 
+            // just get the OTOS position
+            SparkFunOTOS.Pose2D pos = sparkFunOTOS.getPosition();
+
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.addData("OTOS position", "%4.2f, %4.2f, %4.2f", pos.x, pos.y, pos.h);
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", backLeftPower, backRightPower);
             telemetry.addData("shooter velocity",  shooterVelocity);
@@ -599,6 +608,18 @@ public class DD2025CompTeleop extends LinearOpMode {
             datalogger.writeLine();
         }
     }
+
+    private  void configureOTOS() {
+        sparkFunOTOS.setLinearUnit(DistanceUnit.INCH);
+        sparkFunOTOS.setAngularUnit(AngleUnit.DEGREES);
+        sparkFunOTOS.setOffset(new SparkFunOTOS.Pose2D(0, 0, 0));
+        sparkFunOTOS.setLinearScalar(1.0);
+        sparkFunOTOS.setAngularScalar(0.993);
+        sparkFunOTOS.resetTracking();
+        sparkFunOTOS.setPosition(new SparkFunOTOS.Pose2D(0,0,0));
+        sparkFunOTOS.calibrateImu(255, false);
+    }
+
 }   // end class
 
 
