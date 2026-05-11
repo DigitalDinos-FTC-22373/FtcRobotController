@@ -230,8 +230,12 @@ public class DD2025CompTeleop extends LinearOpMode {
                 imu.resetYaw();
             }
 
-            double moveMultiplier = slowMove ? 0.2 : 1.0;
-            double turnMultiplier = slowTurn ? 0.2 : 1.0;
+            double moveMultiplier = slowMove ? 0.4 : 1.0;
+            double turnMultiplier = slowTurn ? 0.4 : 1.0;
+
+            // DEMO OVERRIDE !!!
+            //moveMultiplier = 0.4;
+            //turnMultiplier = 0.4;
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
             double axial   = -gamepad1.left_stick_y * moveMultiplier;  // Note: pushing stick forward gives negative value
@@ -369,6 +373,7 @@ public class DD2025CompTeleop extends LinearOpMode {
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.addData("moveMultiplier",  moveMultiplier);
             telemetry.addData("OTOS position", "%4.2f, %4.2f, %4.2f", pos.x, pos.y, pos.h);
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", backLeftPower, backRightPower);
