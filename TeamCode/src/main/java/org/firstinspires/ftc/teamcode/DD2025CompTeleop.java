@@ -612,7 +612,7 @@ public class DD2025CompTeleop extends LinearOpMode {
     private  void configureOTOS() {
         sparkFunOTOS.setLinearUnit(DistanceUnit.INCH);
         sparkFunOTOS.setAngularUnit(AngleUnit.DEGREES);
-        sparkFunOTOS.setOffset(new SparkFunOTOS.Pose2D(0, 0, 0));
+        sparkFunOTOS.setOffset(new SparkFunOTOS.Pose2D(-0.125, -3.75, 0));
         sparkFunOTOS.setLinearScalar(1.0);
         sparkFunOTOS.setAngularScalar(0.993);
         sparkFunOTOS.resetTracking();
