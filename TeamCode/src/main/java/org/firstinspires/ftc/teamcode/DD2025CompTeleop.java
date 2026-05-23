@@ -40,6 +40,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -155,7 +156,7 @@ public class DD2025CompTeleop extends LinearOpMode {
         backRightDrive = hardwareMap.get(DcMotor.class, "back right");
 
         intake = hardwareMap.get(DcMotor.class, "intake");
-        backintake = hardwareMap.get(DcMotor.class,"backintake");
+        backintake = hardwareMap.get(DcMotor.class,"back intake");
         //Vineeth made the change
         feederleft = hardwareMap.get(CRServo.class, "feeder left");
         feederright = hardwareMap.get(CRServo.class, "feeder right");
@@ -188,7 +189,9 @@ public class DD2025CompTeleop extends LinearOpMode {
 //        shooter.setMode(DcMotor.RunMode.);
         double shooterVelocity = 1400;
         double shooterAdjustment = 960;
-
+        // Change coefficients using methods included with DcMotorEx class.
+        PIDFCoefficients pidfNew = new PIDFCoefficients(150, 0, 0, 13.6);
+        shooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfNew);
 
         // Wait for the game to start (driver presses START)
         telemetry.addData("Status", "Initialized");
