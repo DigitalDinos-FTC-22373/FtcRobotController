@@ -104,8 +104,8 @@ public class DD2025CompTeleop extends LinearOpMode {
     private DcMotor intake;
 
     private DcMotor backintake;
-    private CRServo feederleft;
-    private CRServo feederright;
+    private Servo feederleft;
+    private Servo feederright;
     private Servo kicker;
     private DcMotorEx shooter;
     private SparkFunOTOS sparkFunOTOS;
@@ -158,8 +158,8 @@ public class DD2025CompTeleop extends LinearOpMode {
         intake = hardwareMap.get(DcMotor.class, "intake");
         backintake = hardwareMap.get(DcMotor.class,"back intake");
         //Vineeth made the change
-        feederleft = hardwareMap.get(CRServo.class, "feeder left");
-        feederright = hardwareMap.get(CRServo.class, "feeder right");
+        feederleft = hardwareMap.get(Servo.class, "feeder left");
+        feederright = hardwareMap.get(Servo.class, "feeder right");
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
         kicker = hardwareMap.get(Servo.class, "kicker");
         kicker.setDirection(Servo.Direction.FORWARD);
@@ -181,8 +181,6 @@ public class DD2025CompTeleop extends LinearOpMode {
 
         intake.setDirection(DcMotor.Direction.FORWARD);
         backintake.setDirection(DcMotor.Direction.FORWARD);
-        feederleft.setDirection(CRServo.Direction.REVERSE);
-        feederright.setDirection(CRServo.Direction.FORWARD);
         shooter.setDirection(DcMotor.Direction.REVERSE);
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -360,15 +358,15 @@ public class DD2025CompTeleop extends LinearOpMode {
 
             if (gamepad1.a && shooterDiff < 101) {
                 if (!autoAim || Math.abs(goalCornerAngle) < APRILTAGANGLETOLERANCE) {
-                    feederleft.setPower(1);
-                    feederright.setPower(1);
+                    feederleft.setPosition(0.15);
+                    feederright.setPosition(0.72);
                 } else {
-                    feederleft.setPower(0);
-                    feederright.setPower(0);
+                    feederleft.setPosition(0.3);
+                    feederright.setPosition(0.53);
                 }
             } else {
-                feederleft.setPower(0);
-                feederright.setPower(0);
+                feederleft.setPosition(0.3);
+                feederright.setPosition(0.53);
             }
 
             // just get the OTOS position
@@ -399,7 +397,6 @@ public class DD2025CompTeleop extends LinearOpMode {
             datalog.shooterSetVelocity.set(shooterVelocity / 1000);
             datalog.shooterVelocity.set(shooter.getVelocity() / 1000);
             datalog.DLYaycmd.set(yaw);
-            datalog.DLFeeder.set(feederleft.getPower());
             datalog.DLGamepadA.set(gamepad1.a ? 0.2 : -0.2);
             datalog.DLApriltagangle.set(aprilTagAngle > 4000 ? 0 : aprilTagAngle / 100);
             datalog.DLGoalCornerAngle.set(goalCornerAngle > 4000 ? 0 : goalCornerAngle / 100);
@@ -579,7 +576,6 @@ public class DD2025CompTeleop extends LinearOpMode {
         public Datalogger.GenericField AprilTagDist        = new Datalogger.GenericField("April tag distance (ft / 10)");
         public Datalogger.GenericField DLYaycmd         = new Datalogger.GenericField("Yawcmd");
         public Datalogger.GenericField DLGamepadA      = new Datalogger.GenericField("DLGamepadA");
-        public Datalogger.GenericField DLFeeder      = new Datalogger.GenericField("Feeder");
 
         public Datalog(String name)
         {
@@ -603,8 +599,7 @@ public class DD2025CompTeleop extends LinearOpMode {
                             DLGoalCornerAngle,
                             AprilTagDist,
                             DLYaycmd,
-                            DLGamepadA,
-                            DLFeeder
+                            DLGamepadA
                     )
                     .build();
         }

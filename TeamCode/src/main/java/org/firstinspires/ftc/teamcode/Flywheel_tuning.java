@@ -11,8 +11,9 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.hardware.Servo;
 
-    /**
+/**
      * Created by Tom on 9/26/17.  Updated 9/24/2021 for PIDF.
      * This assumes that you are using a REV Robotics Control Hub or REV Robotics Expansion Hub
      * as your DC motor controller.  This OpMode uses the extended/enhanced
@@ -26,19 +27,26 @@ import com.acmerobotics.dashboard.config.Config;
         // our DC motor
         DcMotorEx shooter;
 
-        public double NEW_P = 150;
-        public static final double NEW_I = 0;
-        public static final double NEW_D = 0;
-        public double NEW_F = 13.6;
+        Servo feeder_L, feeder_R;
+        public static double NEW_P = 150;
+        public static double NEW_I = 0;
+        public static double NEW_D = 0;
+        public static double NEW_F = 13.6;
         // These values are for illustration only; they must be set
         // and adjusted for each motor based on its planned usage.
-        public double set_velocity = 1200;
+        public static double set_velocity = 200;
+
+        public static double Feeder_l_pos = 0;
+        public static double Feeder_r_pos = 0;
 
         public void runOpMode() {
             // Get reference to DC motor.
             // Since we are using the Control Hub or Expansion Hub,
             // cast this motor to a DcMotorEx object.
             shooter = (DcMotorEx)hardwareMap.get(DcMotor.class, "shooter");
+            feeder_L = hardwareMap.get(Servo.class, "feeder left");
+            feeder_R = hardwareMap.get(Servo.class, "feeder right");
+
             FtcDashboard dashboard = FtcDashboard.getInstance();
             telemetry = dashboard.getTelemetry();
 
@@ -76,6 +84,8 @@ import com.acmerobotics.dashboard.config.Config;
                         set_velocity = 1200;
                     }
                 }
+                feeder_L.setPosition(Feeder_l_pos);
+                feeder_R.setPosition(Feeder_r_pos);
 
                 pidfNew = new PIDFCoefficients(NEW_P, NEW_I, NEW_D, NEW_F);
                 shooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfNew);
