@@ -242,7 +242,7 @@ public class DD2025CompTeleop extends LinearOpMode {
             double axial   = -gamepad1.left_stick_y * moveMultiplier;  // Note: pushing stick forward gives negative value
             double lateral = gamepad1.left_stick_x * moveMultiplier;
             double yaw     = gamepad1.right_stick_x * turnMultiplier;
-            double kp = -0.015;
+            double kp = -0.02;// turn speed
 
             if(autoAim && gamepad1.a) {
                 if ((goalCornerAngle > -45 && goalCornerAngle < -APRILTAGANGLETOLERANCE) ||
