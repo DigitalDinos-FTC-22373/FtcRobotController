@@ -129,7 +129,7 @@ public class DD2025CompTeleop extends LinearOpMode {
     @Override
     public void runOpMode() {
         initAprilTag();
-        setManualExposure(5, 255);
+        setManualExposure(1, 255);
 
         datalog = new Datalog("DD_Log_Testing");
 
