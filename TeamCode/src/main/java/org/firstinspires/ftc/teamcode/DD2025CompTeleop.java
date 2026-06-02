@@ -214,10 +214,10 @@ public class DD2025CompTeleop extends LinearOpMode {
             if (gamepad1.startWasPressed()) {
                 autoAim = !autoAim;
             }
-            if (gamepad1.leftStickButtonWasPressed()) {
+            if (gamepad2.leftStickButtonWasPressed()) {
                 slowMove = !slowMove;
             }
-            if (gamepad1.rightStickButtonWasPressed()) {
+            if (gamepad2.rightStickButtonWasPressed()) {
                 slowTurn = !slowTurn;
             }
             if(gamepad1.backWasPressed()){
